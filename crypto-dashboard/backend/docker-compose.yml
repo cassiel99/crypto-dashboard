@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:17
+    container_name: postgres_crypto
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: liliy123
+      POSTGRES_DB: cryptodb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend_crypto
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: liliy123
+      DB_NAME: cryptodb
+      PORT: 3000
+      CMC_API_KEY: 17ac2168-877b-4b77-88c4-b69fb9ee2fb8
+      DATABASE_URL: postgres://postgres:liliy123@db:5432/cryptodb?schema=public
+
+volumes:
+  postgres_data:

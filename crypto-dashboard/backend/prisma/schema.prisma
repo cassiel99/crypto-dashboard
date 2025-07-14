@@ -1,0 +1,19 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model CryptoCurrency {
+  id                Int      @id @default(autoincrement())
+  symbol            String
+  name              String
+  price             Float
+  percentChange24h  Float
+  marketCap         Float
+  volume24h         Float
+  updatedAt         DateTime @updatedAt
+}
